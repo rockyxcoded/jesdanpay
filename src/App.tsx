@@ -260,25 +260,25 @@ function App() {
                   name: "MTN",
                   color: "bg-yellow-50",
                   icon: <PhoneCall className="h-8 w-8 text-white" />,
-                  image: "/mtn.svg",
+                  image: "mtn.svg",
                 },
                 {
                   name: "Airtel",
                   color: "bg-red-50",
                   icon: <PhoneCall className="h-8 w-8 text-white" />,
-                  image: "/airtel.svg",
+                  image: "airtel.svg",
                 },
                 {
                   name: "Glo",
                   color: "bg-green-50",
                   icon: <PhoneCall className="h-8 w-8 text-white" />,
-                  image: "/glo.svg",
+                  image: "glo.svg",
                 },
                 {
                   name: "9mobile",
                   color: "bg-green-50",
                   icon: <PhoneCall className="h-8 w-8 text-white" />,
-                  image: "/9mobile.svg",
+                  image: "9mobile.svg",
                 },
               ].map((provider, index) => (
                 <motion.div
@@ -496,7 +496,7 @@ function App() {
                   }}
                 >
                   <img
-                    src="/screenshot_6.png"
+                    src="screenshot_6.png"
                     alt="Jesdanpay App Dashboard"
                     className="w-70 h-auto rounded-3xl shadow-2xl border-8 border-white"
                   />
@@ -574,11 +574,11 @@ function App() {
               className="flex overflow-x-auto pb-8 -mx-4 px-4 space-x-6 no-scrollbar"
             >
               {[
-                "/screenshot_1.png",
-                "/screenshot_2.png",
-                "/screenshot_3.png",
-                "/screenshot_4.png",
-                "/screenshot_5.png",
+                "screenshot_1.png",
+                "screenshot_2.png",
+                "screenshot_3.png",
+                "screenshot_4.png",
+                "screenshot_5.png",
               ].map((src, index) => (
                 <motion.div
                   key={index}
