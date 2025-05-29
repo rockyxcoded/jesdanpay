@@ -10,8 +10,8 @@ import {
   Twitter,
   Instagram,
   Linkedin,
-  Star,
-  Download,
+  // Star,
+  // Download,
   Smartphone,
 } from "lucide-react";
 import { motion } from "framer-motion";
