@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+"use client";
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import {
@@ -14,8 +15,10 @@ import {
   Download,
   Smartphone,
 } from "lucide-react";
-import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
+import { motion } from "motion/react";
 import { useInView } from "react-intersection-observer";
+import { useEffect, useState, type RefCallback } from "react";
 
 // Animation variants
 const fadeIn = {
@@ -44,16 +47,16 @@ const slideIn = {
 };
 
 // Custom hook for animations
-function useAnimateOnView() {
+function useAnimateOnView(): [RefCallback<Element>, boolean] {
   const [ref, inView] = useInView({
     triggerOnce: true,
     threshold: 0.1,
   });
 
-  return [ref, inView] as const;
+  return [ref, inView];
 }
 
-function App() {
+export default function Home() {
   const [heroRef, heroInView] = useAnimateOnView();
   const [vtuRef, vtuInView] = useAnimateOnView();
   const [billsRef, billsInView] = useAnimateOnView();
@@ -80,14 +83,14 @@ function App() {
         transition={{ duration: 0.5 }}
         className="sticky top-0 z-40 w-full border-b bg-white"
       >
-        <div className="container mx-auto flex h-16 items-center justify-between px-4">
+        <div className="container flex h-16 items-center justify-between">
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5 }}
             className="flex items-center gap-2"
           >
-            <div className="font-bold text-2xl text-[#4CAF50]">Jesdanpay</div>
+            <div className="font-bold text-2xl text-[#4CAF50]">PayEase</div>
           </motion.div>
           <nav className="hidden md:flex gap-6">
             {["Home", "Features", "About", "Download"].map((item, i) => (
@@ -97,26 +100,26 @@ function App() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3, delay: i * 0.1 }}
               >
-                <a
-                  href="#"
+                <Link
+                  to="#"
                   className="text-sm font-medium hover:text-[#4CAF50] transition-colors"
                 >
                   {item}
-                </a>
+                </Link>
               </motion.div>
             ))}
           </nav>
           <div className="flex items-center gap-4">
-            {/* <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
               <Button
                 variant="outline"
                 className="hidden md:flex border-[#4CAF50] text-[#4CAF50] hover:bg-[#4CAF50] hover:text-white"
               >
                 Login
               </Button>
-            </motion.div> */}
+            </motion.div>
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-              <Button className="bg-green-700 hover:bg-[#3d8b40] text-white">
+              <Button className="bg-[#4CAF50] hover:bg-[#3d8b40] text-white">
                 Download App
               </Button>
             </motion.div>
@@ -126,22 +129,22 @@ function App() {
 
       <main className="flex-1">
         {/* Hero Section */}
-        <section className="w-full py-12 md:py-24 lg:py-32 bg-green-50 overflow-hidden">
-          <div className="container mx-auto px-4 md:px-6">
+        <section className="w-full py-12 md:py-24 lg:py-32 bg-white overflow-hidden">
+          <div className="container px-4 md:px-6">
             <motion.div
               ref={heroRef}
               initial="hidden"
               animate={heroInView ? "visible" : "hidden"}
               variants={staggerContainer}
-              className="md:grid gap-6 lg:grid-cols-2 lg:gap-12 items-center"
+              className="grid gap-6 lg:grid-cols-2 lg:gap-12 items-center"
             >
               <div className="space-y-4">
-                {/* <motion.div
+                <motion.div
                   variants={fadeIn}
                   className="inline-block rounded-lg bg-[#FFDE21] px-3 py-1 text-sm font-medium"
                 >
                   Mobile App
-                </motion.div> */}
+                </motion.div>
                 <motion.h1
                   variants={fadeIn}
                   className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl"
@@ -158,35 +161,39 @@ function App() {
                 </motion.p>
                 <motion.div
                   variants={fadeIn}
-                  className="flex sm:flex-row gap-4 pt-4"
+                  className="flex flex-col sm:flex-row gap-4 pt-4"
                 >
                   <motion.div
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                   >
-                    <a href="#">
+                    <Link to="#">
                       <img
-                        src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg"
+                        src="/images/google-play-badge.png"
                         alt="Get it on Google Play"
-                        className="h-14 w-auto"
+                        width={180}
+                        height={53}
+                        className="h-auto"
                       />
-                    </a>
+                    </Link>
                   </motion.div>
                   <motion.div
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                   >
-                    <a href="#">
+                    <Link to="#">
                       <img
-                        src="https://upload.wikimedia.org/wikipedia/commons/3/3c/Download_on_the_App_Store_Badge.svg"
+                        src="/images/app-store-badge.png"
                         alt="Download on the App Store"
-                        className="h-14 w-auto"
+                        width={180}
+                        height={53}
+                        className="h-auto"
                       />
-                    </a>
+                    </Link>
                   </motion.div>
                 </motion.div>
               </div>
-              {/* <motion.div
+              <motion.div
                 variants={scaleIn}
                 className="flex items-center justify-center"
               >
@@ -202,9 +209,11 @@ function App() {
                   className="relative"
                 >
                   <img
-                    src="/hero_1.png"
-                    alt="Jesdanpay Mobile App"
-                    className="w-80 h-auto rounded-3xl shadow-2xl"
+                    src="/images/vtu-app-mockup.png"
+                    width={400}
+                    height={800}
+                    alt="PayEase Mobile App"
+                    className="rounded-3xl shadow-2xl"
                   />
                   <motion.div
                     className="absolute -top-4 -right-4 bg-[#FFDE21] rounded-full px-3 py-1 flex items-center gap-1 shadow-lg"
@@ -221,14 +230,14 @@ function App() {
                     <span className="font-bold text-sm">4.9 Rating</span>
                   </motion.div>
                 </motion.div>
-              </motion.div> */}
+              </motion.div>
             </motion.div>
           </div>
         </section>
 
         {/* VTU Services Section */}
         <section className="w-full py-12 md:py-24 bg-gray-50">
-          <div className="container mx-auto px-4 md:px-6">
+          <div className="container px-4 md:px-6">
             <motion.div
               ref={vtuRef}
               initial="hidden"
@@ -237,9 +246,9 @@ function App() {
               className="flex flex-col items-center justify-center space-y-4 text-center"
             >
               <div className="space-y-2">
-                {/* <div className="inline-block rounded-lg bg-[#FFDE21] px-3 py-1 text-sm font-medium">
+                <div className="inline-block rounded-lg bg-[#FFDE21] px-3 py-1 text-sm font-medium">
                   Mobile Services
-                </div> */}
+                </div>
                 <h2 className="text-3xl font-bold tracking-tighter md:text-4xl">
                   Top-up Instantly
                 </h2>
@@ -258,27 +267,23 @@ function App() {
               {[
                 {
                   name: "MTN",
-                  color: "bg-yellow-50",
+                  color: "bg-yellow-400",
                   icon: <PhoneCall className="h-8 w-8 text-white" />,
-                  image: "/mtn.svg",
                 },
                 {
                   name: "Airtel",
-                  color: "bg-red-50",
+                  color: "bg-red-500",
                   icon: <PhoneCall className="h-8 w-8 text-white" />,
-                  image: "/airtel.svg",
                 },
                 {
                   name: "Glo",
-                  color: "bg-green-50",
+                  color: "bg-green-600",
                   icon: <PhoneCall className="h-8 w-8 text-white" />,
-                  image: "/glo.svg",
                 },
                 {
                   name: "9mobile",
-                  color: "bg-green-50",
+                  color: "bg-green-400",
                   icon: <PhoneCall className="h-8 w-8 text-white" />,
-                  image: "/9mobile.svg",
                 },
               ].map((provider, index) => (
                 <motion.div
@@ -302,7 +307,7 @@ function App() {
                         }}
                         className={`${provider.color} p-3 rounded-full`}
                       >
-                        <img src={provider.image} className="h-10" alt="" />
+                        {provider.icon}
                       </motion.div>
                       <h3 className="font-bold text-xl">{provider.name}</h3>
                       <p className="text-sm text-gray-500">Airtime & Data</p>
@@ -316,7 +321,7 @@ function App() {
 
         {/* Bill Payments Section */}
         <section className="w-full py-12 md:py-24 bg-white">
-          <div className="container mx-auto px-4 md:px-6">
+          <div className="container px-4 md:px-6">
             <motion.div
               ref={billsRef}
               initial="hidden"
@@ -325,9 +330,9 @@ function App() {
               className="flex flex-col items-center justify-center space-y-4 text-center"
             >
               <div className="space-y-2">
-                {/* <div className="inline-block rounded-lg bg-[#FFDE21] px-3 py-1 text-sm font-medium">
+                <div className="inline-block rounded-lg bg-[#FFDE21] px-3 py-1 text-sm font-medium">
                   Utility Bills
-                </div> */}
+                </div>
                 <h2 className="text-3xl font-bold tracking-tighter md:text-4xl">
                   Pay Bills Easily
                 </h2>
@@ -411,7 +416,7 @@ function App() {
 
         {/* App Showcase Section */}
         <section className="w-full py-12 md:py-24 bg-gray-50 overflow-hidden">
-          <div className="container mx-auto px-4 md:px-6">
+          <div className="container px-4 md:px-6">
             <motion.div
               ref={appRef}
               initial="hidden"
@@ -420,9 +425,9 @@ function App() {
               className="flex flex-col items-center justify-center space-y-4 text-center mb-12"
             >
               <div className="space-y-2">
-                {/* <div className="inline-block rounded-lg bg-[#FFDE21] px-3 py-1 text-sm font-medium">
+                <div className="inline-block rounded-lg bg-[#FFDE21] px-3 py-1 text-sm font-medium">
                   App Features
-                </div> */}
+                </div>
                 <h2 className="text-3xl font-bold tracking-tighter md:text-4xl">
                   Designed For Simplicity
                 </h2>
@@ -496,9 +501,11 @@ function App() {
                   }}
                 >
                   <img
-                    src="/screenshot_6.png"
-                    alt="Jesdanpay App Dashboard"
-                    className="w-70 h-auto rounded-3xl shadow-2xl border-8 border-white"
+                    src="/images/app-dashboard.png"
+                    width={280}
+                    height={560}
+                    alt="PayEase App Dashboard"
+                    className="rounded-3xl shadow-2xl border-8 border-white"
                   />
                 </motion.div>
               </motion.div>
@@ -545,7 +552,7 @@ function App() {
 
         {/* App Screenshots Section */}
         <section className="w-full py-12 md:py-24 bg-white">
-          <div className="container mx-auto px-4 md:px-6">
+          <div className="container px-4 md:px-6">
             <motion.div
               initial="hidden"
               animate={featuresInView ? "visible" : "hidden"}
@@ -553,9 +560,9 @@ function App() {
               className="flex flex-col items-center justify-center space-y-4 text-center mb-12"
             >
               <div className="space-y-2">
-                {/* <div className="inline-block rounded-lg bg-[#FFDE21] px-3 py-1 text-sm font-medium">
+                <div className="inline-block rounded-lg bg-[#FFDE21] px-3 py-1 text-sm font-medium">
                   App Screenshots
-                </div> */}
+                </div>
                 <h2 className="text-3xl font-bold tracking-tighter md:text-4xl">
                   See The App In Action
                 </h2>
@@ -573,13 +580,7 @@ function App() {
               variants={staggerContainer}
               className="flex overflow-x-auto pb-8 -mx-4 px-4 space-x-6 no-scrollbar"
             >
-              {[
-                "/screenshot_1.png",
-                "/screenshot_2.png",
-                "/screenshot_3.png",
-                "/screenshot_4.png",
-                "/screenshot_5.png",
-              ].map((src, index) => (
+              {[1, 2, 3, 4, 5].map((index) => (
                 <motion.div
                   key={index}
                   variants={scaleIn}
@@ -587,9 +588,11 @@ function App() {
                   className="flex-shrink-0"
                 >
                   <img
-                    src={src || "/placeholder.svg"}
-                    alt={`App Screenshot ${index + 1}`}
-                    className="w-55 h-auto rounded-3xl shadow-lg border-8 border-white"
+                    src="/images/app-screens.png"
+                    width={220}
+                    height={440}
+                    alt={`App Screenshot ${index}`}
+                    className="rounded-3xl shadow-lg border-8 border-white"
                   />
                 </motion.div>
               ))}
@@ -599,7 +602,7 @@ function App() {
 
         {/* CTA Section */}
         <section className="w-full py-12 md:py-24 bg-[#4CAF50] overflow-hidden relative">
-          <div className="container mx-auto px-4 md:px-6 text-center relative z-10">
+          <div className="container px-4 md:px-6 text-center relative z-10">
             <motion.div
               ref={ctaRef}
               initial="hidden"
@@ -616,7 +619,7 @@ function App() {
                 variants={fadeIn}
                 className="max-w-[700px] text-white/90 md:text-xl mx-auto mb-8"
               >
-                Join over 500,000 Nigerians who trust Jesdanpay for their daily
+                Join over 500,000 Nigerians who trust PayEase for their daily
                 transactions.
               </motion.p>
 
@@ -628,26 +631,50 @@ function App() {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
-                  <a href="#">
+                  <Link to="#">
                     <img
-                      src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg"
+                      src="/images/google-play-badge.png"
                       alt="Get it on Google Play"
-                      className="h-16 w-auto"
+                      width={200}
+                      height={60}
+                      className="h-auto"
                     />
-                  </a>
+                  </Link>
                 </motion.div>
                 <motion.div
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
-                  <a href="#">
+                  <Link to="#">
                     <img
-                      src="https://upload.wikimedia.org/wikipedia/commons/3/3c/Download_on_the_App_Store_Badge.svg"
+                      src="/images/app-store-badge.png"
                       alt="Download on the App Store"
-                      className="h-16 w-auto"
+                      width={200}
+                      height={60}
+                      className="h-auto"
                     />
-                  </a>
+                  </Link>
                 </motion.div>
+              </motion.div>
+
+              <motion.div variants={scaleIn} className="flex justify-center">
+                <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 inline-block">
+                  <div className="flex items-center gap-2">
+                    <Download className="h-5 w-5 text-white" />
+                    <span className="text-white font-medium">
+                      Scan QR code to download
+                    </span>
+                  </div>
+                  <div className="mt-3 bg-white p-2 rounded-lg">
+                    <img
+                      src="/placeholder.svg?height=120&width=120"
+                      width={120}
+                      height={120}
+                      alt="QR Code"
+                      className="rounded"
+                    />
+                  </div>
+                </div>
               </motion.div>
             </motion.div>
 
@@ -685,7 +712,7 @@ function App() {
 
       {/* Footer */}
       <footer className="w-full py-12 bg-gray-900 text-white">
-        <div className="container mx-auto px-4 md:px-6">
+        <div className="container px-4 md:px-6">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -693,7 +720,7 @@ function App() {
             className="grid grid-cols-1 md:grid-cols-4 gap-8"
           >
             <div className="space-y-4">
-              <h3 className="text-xl font-bold">Jesdanpay</h3>
+              <h3 className="text-xl font-bold">PayEase</h3>
               <p className="text-gray-400">
                 Making bill payments and top-ups easy for every Nigerian.
               </p>
@@ -712,10 +739,10 @@ function App() {
                     whileHover={{ scale: 1.2, y: -3 }}
                     whileTap={{ scale: 0.9 }}
                   >
-                    <a href="#" className="text-gray-400 hover:text-white">
+                    <Link to="#" className="text-gray-400 hover:text-white">
                       {social.icon}
                       <span className="sr-only">{social.name}</span>
-                    </a>
+                    </Link>
                   </motion.div>
                 ))}
               </div>
@@ -730,9 +757,9 @@ function App() {
                       whileHover={{ x: 5 }}
                       transition={{ type: "spring", stiffness: 400 }}
                     >
-                      <a href="#" className="text-gray-400 hover:text-white">
+                      <Link to="#" className="text-gray-400 hover:text-white">
                         {link}
-                      </a>
+                      </Link>
                     </motion.li>
                   )
                 )}
@@ -753,9 +780,9 @@ function App() {
                     whileHover={{ x: 5 }}
                     transition={{ type: "spring", stiffness: 400 }}
                   >
-                    <a href="#" className="text-gray-400 hover:text-white">
+                    <Link to="#" className="text-gray-400 hover:text-white">
                       {service}
-                    </a>
+                    </Link>
                   </motion.li>
                 ))}
               </ul>
@@ -764,7 +791,7 @@ function App() {
               <h3 className="text-lg font-semibold">Contact Us</h3>
               <ul className="space-y-2 text-gray-400">
                 <li>Lagos, Nigeria</li>
-                <li>info@Jesdanpay.com</li>
+                <li>info@payease.ng</li>
                 <li>+234 800 123 4567</li>
               </ul>
             </div>
@@ -775,12 +802,10 @@ function App() {
             transition={{ delay: 0.5, duration: 0.8 }}
             className="mt-8 pt-8 border-t border-gray-800 text-center text-gray-400"
           >
-            <p>© {new Date().getFullYear()} Jesdanpay. All rights reserved.</p>
+            <p>© {new Date().getFullYear()} PayEase. All rights reserved.</p>
           </motion.div>
         </div>
       </footer>
     </div>
   );
 }
-
-export default App;
