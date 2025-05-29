@@ -1,6 +1,5 @@
 {
-  "homepage": "https://rockyxcoded.github.io/jesdanpay/",
-  "name": "jesdanpay-web",
+  "name": "jesdanpay",
   "private": true,
   "version": "0.0.0",
   "type": "module",
