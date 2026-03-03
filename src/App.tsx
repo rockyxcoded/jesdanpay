@@ -55,10 +55,10 @@ const slideInLeft = {
   visible: { opacity: 1, x: 0, transition: { duration: 0.6, ease: "easeOut" } },
 };
 
-const slideInRight = {
-  hidden: { opacity: 0, x: 50 },
-  visible: { opacity: 1, x: 0, transition: { duration: 0.6, ease: "easeOut" } },
-};
+// const slideInRight = {
+//   hidden: { opacity: 0, x: 50 },
+//   visible: { opacity: 1, x: 0, transition: { duration: 0.6, ease: "easeOut" } },
+// };
 
 // Custom Hook for Scroll Animations
 function useAnimateOnView(threshold = 0.1) {
@@ -145,8 +145,8 @@ export default function App() {
         animate={{ y: 0 }}
         transition={{ duration: 0.6, ease: "easeOut" }}
         className={`fixed top-0 z-50 w-full transition-all duration-300 ${isScrolled
-            ? "bg-white/80 backdrop-blur-lg shadow-sm border-b border-slate-200/50 py-3"
-            : "bg-transparent py-5"
+          ? "bg-white/80 backdrop-blur-lg shadow-sm border-b border-slate-200/50 py-3"
+          : "bg-transparent py-5"
           }`}
       >
         <div className="container mx-auto flex items-center justify-between px-6 lg:px-12">
